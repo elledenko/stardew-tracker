@@ -1,0 +1,17 @@
+{
+  "project_name": "stardew-tracker",
+  "version": "0.1.0",
+  "status": "active",
+  "current_phase": "build",
+  "cycle": 1,
+  "created_at": "2026-04-01T14:53:08Z",
+  "updated_at": "2026-04-01T14:53:08Z",
+  "repository": null,
+  "vercel_url": null,
+  "stack": {
+    "frontend": "Next.js (App Router)",
+    "backend": "Supabase",
+    "database": "PostgreSQL (Supabase)",
+    "deployment": "vercel"
+  }
+}
