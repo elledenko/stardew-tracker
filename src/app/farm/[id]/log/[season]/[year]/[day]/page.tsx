@@ -1,8 +1,15 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
-import { SEASON_COLORS } from '@/lib/game-data'
+import Image from 'next/image'
 import { DailyLogEditor } from '@/components/daily-log-editor'
+
+const SEASON_ICONS: Record<string, string> = {
+  Spring: '/img/weather/spring.png',
+  Summer: '/img/weather/summer.png',
+  Fall: '/img/weather/fall.png',
+  Winter: '/img/weather/winter.png',
+}
 
 export default async function DailyLogPage({
   params,
@@ -17,15 +24,9 @@ export default async function DailyLogPage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: farm } = await supabase
-    .from('farms')
-    .select('*')
-    .eq('id', id)
-    .single()
-
+  const { data: farm } = await supabase.from('farms').select('*').eq('id', id).single()
   if (!farm) notFound()
 
-  // Get or prepare the daily log
   const { data: existingLog } = await supabase
     .from('daily_logs')
     .select('*')
@@ -35,7 +36,6 @@ export default async function DailyLogPage({
     .eq('day', day)
     .single()
 
-  // Get related data if log exists
   let activities = null
   let gifts = null
   let crops = null
@@ -53,14 +53,14 @@ export default async function DailyLogPage({
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-gray-800 bg-gray-900/50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Link href={`/farm/${id}`} className="text-gray-400 hover:text-gray-200 transition-colors">
+      <header className="sdv-panel rounded-none border-x-0 border-t-0">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-4">
+          <Link href={`/farm/${id}`} className="text-lg text-[#a89070] hover:text-[#ffd700] transition-colors">
             ← {farm.name}
           </Link>
           <div className="flex items-center gap-2">
-            <div className={`w-2.5 h-2.5 rounded-full ${SEASON_COLORS[season] || 'bg-gray-500'}`} />
-            <span className="font-semibold">{season} {day}, Year {year}</span>
+            <Image src={SEASON_ICONS[season] || SEASON_ICONS.Spring} alt={season} width={18} height={18} className="pixelated" />
+            <span className="pixel-heading text-xs text-[#ffd700]">{season} {day}, Year {year}</span>
           </div>
         </div>
       </header>

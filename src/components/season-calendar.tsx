@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import type { DailyLog } from '@/lib/types'
 
 interface SeasonCalendarProps {
@@ -10,7 +11,7 @@ interface SeasonCalendarProps {
   logs: Record<string, DailyLog>
 }
 
-const DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const DAYS_OF_WEEK = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
 export function SeasonCalendar({ farmId, season, year, logs }: SeasonCalendarProps) {
   const days = Array.from({ length: 28 }, (_, i) => i + 1)
@@ -18,8 +19,8 @@ export function SeasonCalendar({ farmId, season, year, logs }: SeasonCalendarPro
   return (
     <div>
       <div className="grid grid-cols-7 gap-1 mb-1">
-        {DAYS_OF_WEEK.map((d) => (
-          <div key={d} className="text-center text-xs text-gray-500 py-1">{d}</div>
+        {DAYS_OF_WEEK.map((d, i) => (
+          <div key={i} className="text-center text-lg text-[#a89070]">{d}</div>
         ))}
       </div>
       <div className="grid grid-cols-7 gap-1">
@@ -33,18 +34,20 @@ export function SeasonCalendar({ farmId, season, year, logs }: SeasonCalendarPro
               key={day}
               href={`/farm/${farmId}/log/${season}/${year}/${day}`}
               className={`
-                aspect-square flex flex-col items-center justify-center rounded-lg text-sm
-                transition-all hover:scale-105
+                aspect-square flex flex-col items-center justify-center transition-all hover:scale-105
                 ${hasLog
-                  ? 'bg-green-900/40 border border-green-700/50 text-green-300'
-                  : 'bg-gray-800/50 border border-gray-700/30 text-gray-400 hover:border-gray-600'
+                  ? 'sdv-panel-light bg-[#2d4a1a]/50 border-[#4caf50]/50'
+                  : 'bg-[#1e1233]/50 border border-[#8b5e3c]/30 hover:border-[#8b5e3c]'
                 }
               `}
             >
-              <span className="font-medium">{day}</span>
+              <span className="text-lg font-bold text-[#f5e6c8]">{day}</span>
               {hasLog && (
-                <span className={`text-[10px] ${goldNet >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {goldNet >= 0 ? '+' : ''}{goldNet}g
+                <span className="flex items-center gap-0.5">
+                  <Image src="/img/ui/gold.png" alt="g" width={10} height={10} className="pixelated" />
+                  <span className={`text-xs ${goldNet >= 0 ? 'text-[#ffd700]' : 'text-[#e57373]'}`}>
+                    {goldNet >= 0 ? '+' : ''}{goldNet}
+                  </span>
                 </span>
               )}
             </Link>

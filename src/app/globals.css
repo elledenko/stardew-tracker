@@ -1,25 +1,109 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-pixel: var(--font-pixel);
+  --font-vt: var(--font-vt);
+
+  /* Stardew Valley color palette */
+  --color-sdv-bg: #1a1a2e;
+  --color-sdv-panel: #2d1b4e;
+  --color-sdv-panel-light: #3d2b5e;
+  --color-sdv-border: #8b5e3c;
+  --color-sdv-border-light: #c4a265;
+  --color-sdv-text: #f5e6c8;
+  --color-sdv-text-dim: #a89070;
+  --color-sdv-gold: #ffd700;
+  --color-sdv-green: #4caf50;
+  --color-sdv-red: #e57373;
+  --color-sdv-spring: #7cb342;
+  --color-sdv-summer: #fdd835;
+  --color-sdv-fall: #ff8f00;
+  --color-sdv-winter: #64b5f6;
+  --color-sdv-button: #5d4037;
+  --color-sdv-button-hover: #795548;
+  --color-sdv-input: #1e1233;
 }
 
 body {
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-vt), monospace;
+  image-rendering: pixelated;
 }
 
-/* Custom scrollbar */
+/* Pixel-art styled scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-sdv-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #374151;
-  border-radius: 3px;
+  background: var(--color-sdv-border);
+  border: 1px solid var(--color-sdv-border-light);
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+
+/* Stardew-style panel with wooden border */
+.sdv-panel {
+  background: var(--color-sdv-panel);
+  border: 3px solid var(--color-sdv-border);
+  box-shadow:
+    inset 0 0 0 1px var(--color-sdv-border-light),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+.sdv-panel-light {
+  background: var(--color-sdv-panel-light);
+  border: 2px solid var(--color-sdv-border);
+  box-shadow: inset 0 0 0 1px var(--color-sdv-border-light);
+  border-radius: 4px;
+}
+
+.sdv-button {
+  background: var(--color-sdv-button);
+  border: 2px solid var(--color-sdv-border-light);
+  color: var(--color-sdv-text);
+  font-family: var(--font-vt), monospace;
+  font-size: 1.25rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.1s;
+  image-rendering: pixelated;
+}
+
+.sdv-button:hover {
+  background: var(--color-sdv-button-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 0 var(--color-sdv-border);
+}
+
+.sdv-button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.sdv-input {
+  background: var(--color-sdv-input);
+  border: 2px solid var(--color-sdv-border);
+  color: var(--color-sdv-text);
+  font-family: var(--font-vt), monospace;
+  font-size: 1.25rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 2px;
+}
+
+.sdv-input:focus {
+  outline: none;
+  border-color: var(--color-sdv-border-light);
+  box-shadow: 0 0 0 1px var(--color-sdv-border-light);
+}
+
+.sdv-input::placeholder {
+  color: var(--color-sdv-text-dim);
+  opacity: 0.6;
+}
+
+/* Pixel heading style */
+.pixel-heading {
+  font-family: var(--font-pixel), monospace;
+  letter-spacing: 1px;
 }

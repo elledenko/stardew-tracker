@@ -28,12 +28,7 @@ export function NewFarmForm() {
 
     const { error } = await supabase
       .from('farms')
-      .insert({
-        user_id: user.id,
-        name,
-        farmer_name: farmerName,
-        farm_type: farmType,
-      })
+      .insert({ user_id: user.id, name, farmer_name: farmerName, farm_type: farmType })
 
     if (error) {
       setError(error.message)
@@ -50,45 +45,29 @@ export function NewFarmForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-2 rounded-lg text-sm">
-          {error}
-        </div>
+        <div className="sdv-panel-light px-4 py-2 text-[#e57373] text-lg">{error}</div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="farm-name" className="block text-sm font-medium text-gray-300 mb-1">Farm Name</label>
+          <label htmlFor="farm-name" className="block text-lg text-[#c4a265] mb-1">Farm Name</label>
           <input
-            id="farm-name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            placeholder="Sunshine Farm"
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-500"
+            id="farm-name" type="text" value={name} onChange={(e) => setName(e.target.value)}
+            required placeholder="Sunshine Farm" className="sdv-input w-full"
           />
         </div>
-
         <div>
-          <label htmlFor="farmer-name" className="block text-sm font-medium text-gray-300 mb-1">Farmer Name</label>
+          <label htmlFor="farmer-name" className="block text-lg text-[#c4a265] mb-1">Farmer Name</label>
           <input
-            id="farmer-name"
-            type="text"
-            value={farmerName}
-            onChange={(e) => setFarmerName(e.target.value)}
-            required
-            placeholder="Your character name"
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-500"
+            id="farmer-name" type="text" value={farmerName} onChange={(e) => setFarmerName(e.target.value)}
+            required placeholder="Your character name" className="sdv-input w-full"
           />
         </div>
-
         <div>
-          <label htmlFor="farm-type" className="block text-sm font-medium text-gray-300 mb-1">Farm Type</label>
+          <label htmlFor="farm-type" className="block text-lg text-[#c4a265] mb-1">Farm Type</label>
           <select
-            id="farm-type"
-            value={farmType}
-            onChange={(e) => setFarmType(e.target.value)}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            id="farm-type" value={farmType} onChange={(e) => setFarmType(e.target.value)}
+            className="sdv-input w-full"
           >
             {FARM_TYPES.map((type) => (
               <option key={type} value={type}>{type}</option>
@@ -97,11 +76,7 @@ export function NewFarmForm() {
         </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="px-4 py-2 bg-green-600 hover:bg-green-500 disabled:bg-gray-700 text-white rounded-lg font-medium transition-colors"
-      >
+      <button type="submit" disabled={loading} className="sdv-button bg-[#4caf50] border-[#2e7d32] hover:bg-[#66bb6a] disabled:opacity-50">
         {loading ? 'Creating...' : 'Create Farm'}
       </button>
     </form>

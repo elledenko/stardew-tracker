@@ -1,24 +1,33 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
-import { SEASONS, SEASON_COLORS, SEASON_BG } from '@/lib/game-data'
+import Image from 'next/image'
+import { SEASONS } from '@/lib/game-data'
 import type { Farm, DailyLog } from '@/lib/types'
 import { SeasonCalendar } from '@/components/season-calendar'
 import { FarmHeader } from '@/components/farm-header'
+
+const SEASON_ICONS: Record<string, string> = {
+  Spring: '/img/weather/spring.png',
+  Summer: '/img/weather/summer.png',
+  Fall: '/img/weather/fall.png',
+  Winter: '/img/weather/winter.png',
+}
+
+const SEASON_BG: Record<string, string> = {
+  Spring: 'from-[#2d4a1a]/30',
+  Summer: 'from-[#4a3a1a]/30',
+  Fall: 'from-[#4a2a1a]/30',
+  Winter: 'from-[#1a2a4a]/30',
+}
 
 export default async function FarmPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-
   if (!user) redirect('/login')
 
-  const { data: farm } = await supabase
-    .from('farms')
-    .select('*')
-    .eq('id', id)
-    .single()
-
+  const { data: farm } = await supabase.from('farms').select('*').eq('id', id).single()
   if (!farm) notFound()
 
   const { data: logs } = await supabase
@@ -35,41 +44,31 @@ export default async function FarmPage({ params }: { params: Promise<{ id: strin
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-gray-800 bg-gray-900/50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="sdv-panel rounded-none border-x-0 border-t-0">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="text-gray-400 hover:text-gray-200 transition-colors">
+            <Link href="/dashboard" className="text-lg text-[#a89070] hover:text-[#ffd700] transition-colors">
               ← Back
             </Link>
-            <h1 className="text-xl font-bold">{farm.name}</h1>
+            <h1 className="pixel-heading text-sm text-[#ffd700]">{farm.name}</h1>
           </div>
           <FarmHeader farm={farm as Farm} />
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="mb-6">
-          <p className="text-gray-400">
-            {farm.farmer_name} &middot; {farm.farm_type} Farm &middot; Year {farm.current_year}
-          </p>
+        <div className="mb-6 text-lg text-[#a89070]">
+          {farm.farmer_name} · {farm.farm_type} Farm · Year {farm.current_year}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {SEASONS.map((season) => (
-            <div
-              key={season}
-              className={`bg-gradient-to-br ${SEASON_BG[season]} bg-gray-900 rounded-xl border border-gray-800 p-5`}
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <div className={`w-3 h-3 rounded-full ${SEASON_COLORS[season]}`} />
-                <h3 className="font-semibold text-lg">{season}</h3>
+            <div key={season} className={`sdv-panel p-5 bg-gradient-to-br ${SEASON_BG[season]} to-transparent`}>
+              <div className="flex items-center gap-3 mb-4">
+                <Image src={SEASON_ICONS[season]} alt={season} width={20} height={20} className="pixelated" />
+                <h3 className="pixel-heading text-xs text-[#ffd700]">{season}</h3>
               </div>
-              <SeasonCalendar
-                farmId={id}
-                season={season}
-                year={farm.current_year}
-                logs={logsBySeasonDay}
-              />
+              <SeasonCalendar farmId={id} season={season} year={farm.current_year} logs={logsBySeasonDay} />
             </div>
           ))}
         </div>

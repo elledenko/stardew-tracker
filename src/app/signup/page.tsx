@@ -17,9 +17,7 @@ export default function SignupPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-
     const { error } = await supabase.auth.signUp({ email, password })
-
     if (error) {
       setError(error.message)
       setLoading(false)
@@ -31,54 +29,35 @@ export default function SignupPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
-      <div className="w-full max-w-sm">
-        <h1 className="text-3xl font-bold mb-1 text-center">Create Account</h1>
-        <p className="text-gray-400 text-center mb-6">Start tracking your farm</p>
+      <div className="w-full max-w-sm sdv-panel p-8">
+        <h1 className="pixel-heading text-lg text-[#ffd700] text-center mb-1">New Farm</h1>
+        <p className="text-xl text-[#a89070] text-center mb-6">Start your adventure</p>
 
         <form onSubmit={handleSignup} className="space-y-4">
           {error && (
-            <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-2 rounded-lg text-sm">
+            <div className="sdv-panel-light px-4 py-2 text-[#e57373] text-lg">
               {error}
             </div>
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-            />
+            <label htmlFor="email" className="block text-lg text-[#c4a265] mb-1">Email</label>
+            <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="sdv-input w-full" />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-            />
+            <label htmlFor="password" className="block text-lg text-[#c4a265] mb-1">Password</label>
+            <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="sdv-input w-full" />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2 bg-green-600 hover:bg-green-500 disabled:bg-gray-700 text-white rounded-lg font-medium transition-colors"
-          >
-            {loading ? 'Creating account...' : 'Create Account'}
+          <button type="submit" disabled={loading} className="sdv-button w-full text-xl bg-[#4caf50] border-[#2e7d32] hover:bg-[#66bb6a] disabled:opacity-50">
+            {loading ? 'Creating...' : 'Create Account'}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-400">
+        <p className="mt-4 text-center text-lg text-[#a89070]">
           Already have an account?{' '}
-          <Link href="/login" className="text-green-400 hover:text-green-300">Sign in</Link>
+          <Link href="/login" className="text-[#ffd700] hover:text-[#ffeb3b]">Sign in</Link>
         </p>
       </div>
     </div>
